@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,11 +23,12 @@ namespace AsHedonistas.Models
 
         [Required]
         [StringLength(255)]
-        public string Name { get; set; }
+        public string Title { get; set; }
 
         [Required]
-        public string Content { get; set; }
+        public string ShortContent { get; set; }
 
+        public DateTime PublishDate { get; set; }
 
         //RELAÇÕES:
         // relaciona o objeto Noticia com um objeto USER

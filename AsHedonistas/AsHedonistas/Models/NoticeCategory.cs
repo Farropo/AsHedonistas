@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 
@@ -21,6 +22,9 @@ namespace AsHedonistas.Models
         [StringLength(255)]
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
+        
 
         //***********************************************************************
         // definição do atributo que será utilizado para exprimir o relacionamento

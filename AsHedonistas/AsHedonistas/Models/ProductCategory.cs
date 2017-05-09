@@ -22,6 +22,7 @@ namespace AsHedonistas.Models
         [StringLength(255)]
         public string Name { get; set; }
 
+        public string Description { get; set; }
 
         //***********************************************************************
         // definição do atributo que será utilizado para exprimir o relacionamento

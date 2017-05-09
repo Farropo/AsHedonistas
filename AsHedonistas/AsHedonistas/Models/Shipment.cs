@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
@@ -14,7 +15,11 @@ namespace AsHedonistas.Models
         [Required]
         [StringLength(255)]
         public string Name { get; set; }
-                
+
+        public string Description { get; set; }
+
+        public DateTime EstimatedDeliveryDate { get; set; }
+
         //RELAÇÕES:
         // relaciona o objeto Order com um objeto Product
         public Product Product { get; set; }

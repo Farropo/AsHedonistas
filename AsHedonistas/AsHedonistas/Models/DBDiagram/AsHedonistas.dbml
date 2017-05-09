@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="AsHedonistas" Class="AsHedonistasDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=AsHedonistas;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="AsHedonistasConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.[__MigrationHistory]" Member="__MigrationHistory">
+    <Type Name="__MigrationHistory">
+      <Column Name="MigrationId" Type="System.String" DbType="NVarChar(150) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ContextKey" Type="System.String" DbType="NVarChar(300) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Model" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX) NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="ProductVersion" Type="System.String" DbType="NVarChar(32) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.NoticeCategories" Member="NoticeCategories">
+    <Type Name="NoticeCategories">
+      <Column Name="NoticeCategoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="NoticeCategories_NoticeCategoryNotices" Member="NoticeCategoryNotices" ThisKey="NoticeCategoryID" OtherKey="NoticeCategory_NoticeCategoryID" Type="NoticeCategoryNotices" />
+    </Type>
+  </Table>
+  <Table Name="dbo.NoticeCategoryNotices" Member="NoticeCategoryNotices">
+    <Type Name="NoticeCategoryNotices">
+      <Column Name="NoticeCategory_NoticeCategoryID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Notice_NoticeID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="NoticeCategories_NoticeCategoryNotices" Member="NoticeCategories" ThisKey="NoticeCategory_NoticeCategoryID" OtherKey="NoticeCategoryID" Type="NoticeCategories" IsForeignKey="true" />
+      <Association Name="Notices_NoticeCategoryNotices" Member="Notices" ThisKey="Notice_NoticeID" OtherKey="NoticeID" Type="Notices" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.NoticeComments" Member="NoticeComments">
+    <Type Name="NoticeComments">
+      <Column Name="NoticeCommentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NoticeFK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Content" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PublishDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Notices_NoticeComments" Member="Notices" ThisKey="NoticeFK" OtherKey="NoticeID" Type="Notices" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.NoticeDetails" Member="NoticeDetails">
+    <Type Name="NoticeDetails">
+      <Column Name="NoticeDetailID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NoticeFK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Content" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PublishDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Notices_NoticeDetails" Member="Notices" ThisKey="NoticeFK" OtherKey="NoticeID" Type="Notices" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Notices" Member="Notices">
+    <Type Name="Notices">
+      <Column Name="NoticeID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserFK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Title" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ShortContent" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="PublishDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Notices_NoticeCategoryNotices" Member="NoticeCategoryNotices" ThisKey="NoticeID" OtherKey="Notice_NoticeID" Type="NoticeCategoryNotices" />
+      <Association Name="Notices_NoticeComments" Member="NoticeComments" ThisKey="NoticeID" OtherKey="NoticeFK" Type="NoticeComments" />
+      <Association Name="Notices_NoticeDetails" Member="NoticeDetails" ThisKey="NoticeID" OtherKey="NoticeFK" Type="NoticeDetails" />
+      <Association Name="Users_Notices" Member="Users" ThisKey="UserFK" OtherKey="UserID" Type="Users" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Orders" Member="Orders">
+    <Type Name="Orders">
+      <Column Name="OrderID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ProductFK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="UserFK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OrderDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Products_Orders" Member="Products" ThisKey="ProductFK" OtherKey="ProductID" Type="Products" IsForeignKey="true" />
+      <Association Name="Users_Orders" Member="Users" ThisKey="UserFK" OtherKey="UserID" Type="Users" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProductCategories" Member="ProductCategories">
+    <Type Name="ProductCategories">
+      <Column Name="ProductCategoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="ProductCategories_ProductCategoryProducts" Member="ProductCategoryProducts" ThisKey="ProductCategoryID" OtherKey="ProductCategory_ProductCategoryID" Type="ProductCategoryProducts" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ProductCategoryProducts" Member="ProductCategoryProducts">
+    <Type Name="ProductCategoryProducts">
+      <Column Name="ProductCategory_ProductCategoryID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Product_ProductID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="ProductCategories_ProductCategoryProducts" Member="ProductCategories" ThisKey="ProductCategory_ProductCategoryID" OtherKey="ProductCategoryID" Type="ProductCategories" IsForeignKey="true" />
+      <Association Name="Products_ProductCategoryProducts" Member="Products" ThisKey="Product_ProductID" OtherKey="ProductID" Type="Products" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Products" Member="Products">
+    <Type Name="Products">
+      <Column Name="ProductID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="EntryDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Products_Orders" Member="Orders" ThisKey="ProductID" OtherKey="ProductFK" Type="Orders" />
+      <Association Name="Products_ProductCategoryProducts" Member="ProductCategoryProducts" ThisKey="ProductID" OtherKey="Product_ProductID" Type="ProductCategoryProducts" />
+      <Association Name="Products_Shipments" Member="Shipments" ThisKey="ProductID" OtherKey="ProductFK" Type="Shipments" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Roles" Member="Roles">
+    <Type Name="Roles">
+      <Column Name="RoleID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="Roles_RoleUsers" Member="RoleUsers" ThisKey="RoleID" OtherKey="Role_RoleID" Type="RoleUsers" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RoleUsers" Member="RoleUsers">
+    <Type Name="RoleUsers">
+      <Column Name="Role_RoleID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="User_UserID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Roles_RoleUsers" Member="Roles" ThisKey="Role_RoleID" OtherKey="RoleID" Type="Roles" IsForeignKey="true" />
+      <Association Name="Users_RoleUsers" Member="Users" ThisKey="User_UserID" OtherKey="UserID" Type="Users" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Shipments" Member="Shipments">
+    <Type Name="Shipments">
+      <Column Name="ShipmentID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ProductFK" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="EstimatedDeliveryDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Products_Shipments" Member="Products" ThisKey="ProductFK" OtherKey="ProductID" Type="Products" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Users" Member="Users">
+    <Type Name="Users">
+      <Column Name="UserID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="RegistrationDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="NIF" Type="System.String" DbType="NVarChar(9) NOT NULL" CanBeNull="false" />
+      <Association Name="Users_Notices" Member="Notices" ThisKey="UserID" OtherKey="UserFK" Type="Notices" />
+      <Association Name="Users_Orders" Member="Orders" ThisKey="UserID" OtherKey="UserFK" Type="Orders" />
+      <Association Name="Users_RoleUsers" Member="RoleUsers" ThisKey="UserID" OtherKey="User_UserID" Type="RoleUsers" />
+    </Type>
+  </Table>
+</Database>

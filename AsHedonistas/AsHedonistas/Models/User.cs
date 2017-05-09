@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AsHedonistas.Models
@@ -25,6 +26,14 @@ namespace AsHedonistas.Models
         [Required]
         [StringLength(255)]
         public string Name { get; set; }
+
+        public DateTime RegistrationDate { get; set; }
+
+        [Required]
+        [StringLength(9)]
+        [RegularExpression("[0-9]{9}",
+        ErrorMessage = "o {0} tem 9 algarismos")]
+        public string NIF { get; set; }
 
 
         // Objectos Notice & Order
